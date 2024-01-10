@@ -19,6 +19,7 @@
 		812159CE2B49C0C100B7574D /* UserData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812159CD2B49C0C100B7574D /* UserData.swift */; };
 		812159D32B49D9A300B7574D /* EditTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812159D22B49D9A300B7574D /* EditTransactionView.swift */; };
 		812159D62B49F81200B7574D /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 812159D52B49F81200B7574D /* AddTransactionView.swift */; };
+		819865DE2B4EDB200035970F /* RegistrView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 819865DD2B4EDB200035970F /* RegistrView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		812159CD2B49C0C100B7574D /* UserData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserData.swift; sourceTree = "<group>"; };
 		812159D22B49D9A300B7574D /* EditTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditTransactionView.swift; sourceTree = "<group>"; };
 		812159D52B49F81200B7574D /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
+		819865DD2B4EDB200035970F /* RegistrView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -142,6 +144,7 @@
 			isa = PBXGroup;
 			children = (
 				812159C62B49BD0A00B7574D /* LogVIew.swift */,
+				819865DD2B4EDB200035970F /* RegistrView.swift */,
 				812159C82B49BD3200B7574D /* StartView.swift */,
 				812159CA2B49BD4000B7574D /* MainView.swift */,
 				812159D42B49F56900B7574D /* SheetViews */,
@@ -303,6 +306,7 @@
 				8121599D2B49BB4C00B7574D /* ExpenseTrackerApp.swift in Sources */,
 				812159CB2B49BD4000B7574D /* MainView.swift in Sources */,
 				812159C92B49BD3200B7574D /* StartView.swift in Sources */,
+				819865DE2B4EDB200035970F /* RegistrView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

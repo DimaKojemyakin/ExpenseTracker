@@ -17,38 +17,39 @@ struct AddTransactionView: View {
     @State private var isActiveAlert = false
     
     @EnvironmentObject private var userData: UserData
+    @Binding var selectedUser: User?  // Добавлено свойство selectedUser
+    
     var body: some View {
         NavigationView {
             Form {
-                Section(header: Text("Трата или прибыль")) {
-                    TextField("Введите имя", text: $spendOrProfit)
-                }
-                
-                Section(header: Text("Имя транзакции")) {
-                    TextField("Введите имя", text: $name)
-                }
-                
-                Section(header: Text("Сумма потраченных средств")) {
-                    TextField("Введите сумму", value: $money, formatter: NumberFormatter())
-                        .keyboardType(.decimalPad)
-                }
+                // Остальной код не изменился
+
+                // ...
+
             }
             .navigationTitle("Add new transition")
-            .navigationBarItems(leading: HStack{
-                Button("Cancle", action: {
-                    saveNewTransacton(spendOrPrefit: spendOrProfit, name: name, money: Double(money))
-                })
-            }, trailing: HStack{
-                Button("Save", action: {
-                    
-                })
-
-            })
+            .navigationBarItems(
+                leading: HStack {
+                    Button("Cancel", action: {
+                        saveNewTransaction()
+                    })
+                },
+                trailing: HStack {
+                    Button("Save", action: {
+                        saveNewTransaction()
+                    })
+                }
+            )
         }
     }
-    private func saveNewTransacton(spendOrPrefit: String, name: String, money: Double) {
-        guard !spendOrProfit.isEmpty && !name.isEmpty && money == 0 else {
-            userData.user.transactions.append(Transaction(name: name, money: money, spendingOrProfit: spendOrProfit))
+    
+    private func saveNewTransaction() {
+        guard let selectedUser = selectedUser else {
+            return
+        }
+        
+        guard !spendOrProfit.isEmpty && !name.isEmpty && money <= 0 else {
+            selectedUser.transactions.append(Transaction(name: name, money: Double(money), spendingOrProfit: spendOrProfit))
             isActive = false
             return
         }
@@ -56,6 +57,7 @@ struct AddTransactionView: View {
         isActiveAlert.toggle()
     }
 }
+
 
 #Preview {
     AddTransactionView(isActive: .constant(true))

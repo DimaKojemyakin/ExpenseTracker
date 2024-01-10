@@ -1,10 +1,3 @@
-//
-//  UserData.swift
-//  ExpenseTracker
-//
-//  Created by Дима Кожемякин on 06.01.2024.
-//
-
 import Foundation
 import SwiftUI
 
@@ -14,32 +7,23 @@ struct Transaction: Identifiable, Equatable {
     var money: Double
     var spendingOrProfit: String
     
-    // Реализация протокола Equatable
     static func == (lhs: Transaction, rhs: Transaction) -> Bool {
         return lhs.name == rhs.name && lhs.money == rhs.money
     }
 }
 
-class UserData: ObservableObject {
-    @Published var user = User()
-    
-}
-
 struct User: Identifiable {
     var id = UUID()
-    var isRegistred = false
+    var isRegistered = false
     var name = ""
+    var userName = ""
     var surname = ""
-    var passworx = ""
+    var password = ""
     var money = 2017
     var currency = "$"
     var colorMoney = Color.green
     var arrow = "↑"
-    var transactions: [Transaction] = [
-        Transaction(name: "Tinkoff", money: 2129, spendingOrProfit: "+"),
-        Transaction(name: "Tinkoff", money: 2129, spendingOrProfit: "+"),
-        Transaction(name: "Tinkoff", money: 2129, spendingOrProfit: "+"),
-    ] {
+    var transactions: [Transaction] = [] {
         didSet {
             updateTotalMoney()
         }
@@ -54,5 +38,42 @@ struct User: Identifiable {
     mutating func updateTotalMoney() {
         let total = transactions.reduce(0) { $0 + ($1.spendingOrProfit == "+" ? $1.money : -$1.money) }
         totalMoney = Double(total)
+    }
+}
+
+class UserData: ObservableObject {
+    @Published var users: [User] = []
+
+    func getCurrentUser() -> User? {
+        return users.first
+    }
+
+    func addTransaction(for user: User, name: String, money: Double, spendingOrProfit: String) {
+        guard var currentUser = users.first(where: { $0.id == user.id }) else {
+            return
+        }
+
+        currentUser.transactions.append(Transaction(name: name, money: money, spendingOrProfit: spendingOrProfit))
+        updateUser(currentUser)
+    }
+
+    func addUser(_ user: User) {
+        users.append(user)
+    }
+
+    func updateUser(_ user: User) {
+        if let index = users.firstIndex(where: { $0.id == user.id }) {
+            users[index] = user
+        }
+    }
+
+    func deleteUser(_ user: User) {
+        users.removeAll { $0.id == user.id }
+    }
+
+    func updateTransactions(_ transactions: [Transaction], forUser user: User) {
+        if let index = users.firstIndex(where: { $0.id == user.id }) {
+            users[index].transactions = transactions
+        }
     }
 }

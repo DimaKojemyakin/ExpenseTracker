@@ -10,20 +10,15 @@ struct MainView: View {
             List {
                 ForEach(userData.user.transactions) { transaction in
                     HStack {
+                        Spacer()
                         Text("\(transaction.spendingOrProfit)").foregroundColor(.green)
                         Spacer()
                         Divider()
                         Spacer()
-                        
-                        Spacer()
-                        Divider()
-                        Spacer()
-                        
                         Text(transaction.name)
                         Spacer()
                         Divider()
                         Spacer()
-                        
                         Text(String(Int(transaction.money)))
                         Spacer()
                     }
@@ -34,12 +29,20 @@ struct MainView: View {
                 }
             }
             .sheet(item: $selectedTransaction) { transaction in
-                EditTransactionView(transaction: $userData.user.transactions[userData.user.transactions.firstIndex(of: transaction)!])
+                if let index = userData.user.transactions.firstIndex(of: transaction) {
+                    EditTransactionView(
+                        transaction: userData.user.transactions[index],
+                        updateTransaction: { updatedTransaction in
+                            userData.user.transactions[index] = updatedTransaction
+                        }
+                    )
                     .interactiveDismissDisabled()
                     .onDisappear {
                         selectedTransaction = nil
                     }
+                }
             }
+
             .sheet(isPresented: $isActiveSheetAddMoney){
                 
             }
@@ -51,7 +54,7 @@ struct MainView: View {
                 }
             }, trailing: HStack {
                 Button(action: {}){
-                    Text("\(userData.user.arrow)").font(.title2).fontWeight(.bold).foregroundColor(userData.user.colorMoney)
+                    Text("\(userData.user.arrow)").font(.title2).fontWeight(.bold).foregroundColor(user)
                     Text("\(Int(userData.user.totalMoney))\(userData.user.currency)").font(.title2).fontWeight(.bold)
                 }
             })

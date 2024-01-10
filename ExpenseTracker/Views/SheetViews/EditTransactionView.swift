@@ -1,31 +1,28 @@
-//
-//  EditTransactionView.swift
-//  ExpenseTracker
-//
-//  Created by Дима Кожемякин on 06.01.2024.
-//
-
 import SwiftUI
 
 struct EditTransactionView: View {
-    @State private var selectedDate: Date = Date()
-    @Binding var transaction: Transaction
-    @EnvironmentObject var userData: UserData
+    @State private var editedTransaction: Transaction
+    var updateTransaction: (Transaction) -> Void
     @Environment(\.presentationMode) var presentationMode
+
+    init(transaction: Transaction, updateTransaction: @escaping (Transaction) -> Void) {
+        _editedTransaction = State(initialValue: transaction)
+        self.updateTransaction = updateTransaction
+    }
 
     var body: some View {
         NavigationView {
             Form {
                 Section(header: Text("Трата или прибыль")) {
-                    TextField("Введите имя", text: $transaction.spendingOrProfit)
+                    TextField("Введите имя", text: $editedTransaction.spendingOrProfit)
                 }
 
                 Section(header: Text("Имя транзакции")) {
-                    TextField("Введите имя", text: $transaction.name)
+                    TextField("Введите имя", text: $editedTransaction.name)
                 }
 
                 Section(header: Text("Сумма потраченных средств")) {
-                    TextField("Введите сумму", value: $transaction.money, formatter: NumberFormatter())
+                    TextField("Введите сумму", value: $editedTransaction.money, formatter: NumberFormatter())
                         .keyboardType(.decimalPad)
                 }
             }
@@ -35,6 +32,7 @@ struct EditTransactionView: View {
                     presentationMode.wrappedValue.dismiss()
                 },
                 trailing: Button("Сохранить") {
+                    updateTransaction(editedTransaction)
                     presentationMode.wrappedValue.dismiss()
                 }
             )
@@ -44,7 +42,7 @@ struct EditTransactionView: View {
 
 struct EditTransactionView_Previews: PreviewProvider {
     static var previews: some View {
-        EditTransactionView(transaction: .constant(Transaction(name: "Example", money: 100, spendingOrProfit: "+")))
-            .environmentObject(UserData())
+        let sampleTransaction = Transaction(name: "Example", money: 100, spendingOrProfit: "+")
+        EditTransactionView(transaction: sampleTransaction) { _ in }
     }
 }
